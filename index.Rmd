@@ -5,3 +5,24 @@ date: "1/4/2020"
 output: html_document
 ---
 
+locations of seismic events of MB > 5.5 occurred in a cube near Fiji since 1964
+
+*circle radius equals MB^6*
+
+```{r mappa, echo=TRUE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(leaflet))
+suppressPackageStartupMessages(library(datasets))
+
+data(quakes)
+
+quakes %>%
+      leaflet() %>% 
+      addTiles() %>% 
+      addCircles(weight = 1,
+                 lat = quakes$lat[quakes$mag > 5.5],
+                 lng = quakes$long[quakes$mag > 5.5],
+                 radius = quakes$mag[quakes$mag > 5.5]^6)
+
+```
+
